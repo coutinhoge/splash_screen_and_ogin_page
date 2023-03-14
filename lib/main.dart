@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:splash_screen_and_ogin_page/pages/details_home_page.dart';
 import 'package:splash_screen_and_ogin_page/pages/login_page.dart';
 import 'package:splash_screen_and_ogin_page/pages/splash_page.dart';
 
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
           '/splash': (_) => const SplashPage(),
           '/login': (_) => LoginPage(),
           '/home': (_) => const HomePage(),
+          '/details': (_) => const DetailsPage(),
         });
   }
 }
