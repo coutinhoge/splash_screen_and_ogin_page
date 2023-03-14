@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../controllers/login_controller.dart';
+
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  final LoginController _controller = LoginController();
+
+  LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,17 +24,39 @@ class LoginPage extends StatelessWidget {
               decoration: InputDecoration(
                 label: Text('Login'),
               ),
+              onChanged: _controller.setLogin,
             ),
             TextField(
               decoration: InputDecoration(
                 label: Text('Senha'),
               ),
+              onChanged: _controller.setPass,
               obscureText: true,
             ),
             SizedBox(height: 15),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text('Login'),
+            ValueListenableBuilder<bool>(
+              valueListenable: _controller.inLoader,
+              builder: (_, inloader, __) => inloader
+                  ? CircularProgressIndicator()
+                  : ElevatedButton(
+                      onPressed: () {
+                        _controller.auth().then((result) {
+                          if (result) {
+                            Navigator.of(context).pushReplacementNamed('/home');
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: const Text('Falha ao logar'),
+                                duration: const Duration(
+                                  seconds: 5,
+                                ),
+                              ),
+                            );
+                          }
+                        });
+                      },
+                      child: Text('Login'),
+                    ),
             )
           ],
         ),
